@@ -14,7 +14,7 @@ def test_guest_can_go_to_login_page(browser, language):
 def test_guest_should_see_login_link(browser, language):
     url = "http://selenium1py.pythonanywhere.com/{language}/"
     timeout = 10
-    page = MainPage(browser, timeout, url)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page = MainPage(browser, timeout, url)
     page.open()
     page.should_be_login_link()
 
