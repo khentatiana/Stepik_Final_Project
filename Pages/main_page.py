@@ -15,3 +15,6 @@ class MainPage(BasePage):
         assert self.browser.find_element(By.CSS_SELECTOR, "#login_link_invalid_locator"), \
             "Login link is not presented"
 
+    def should_be_login_link_using_is_element_present(self):
+        assert self.is_element_present(By.CSS_SELECTOR, "#login_link_invalid_locator"), \
+            "Login link IS NOT PRESENT"

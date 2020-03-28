@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 
 
 class ProductPage(BasePage):
+    def __init__(self, browser, url, timeout):
+        super().__init__(browser, url, timeout)
 
     # this methods will be called in test_product_page.py
     def should_be_add_to_cart_button(self):
