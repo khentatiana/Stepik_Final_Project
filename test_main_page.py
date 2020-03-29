@@ -20,7 +20,7 @@ def test_guest_should_see_login_link(browser, language):
     page = MainPage(browser, url, timeout)
     page.open()
     #page.should_be_login_link()
-    page.should_be_login_link_using_is_element_present()
+    page.should_be_login_link()
 
 
 # def go_to_login_page(browser):
