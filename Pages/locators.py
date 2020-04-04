@@ -5,8 +5,7 @@ from selenium.webdriver.common.by import By
 class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
-class LoginPageLocators():
+#class LoginPageLocators():
 
-
-
-#class ProductPageLocators():
+class ProductPageLocators():
+    ADD_TO_BASKET = (By.CSS_SELECTOR, "//button[@class='btn btn-lg btn-primary btn-add-to-basket']")
