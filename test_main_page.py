@@ -5,6 +5,7 @@ from .Pages.main_page import MainPage
 @pytest.mark.parametrize('language', ["ru", "en-gb"])
 def test_guest_can_go_to_login_page(browser, language):
     url = "http://selenium1py.pythonanywhere.com/{language}/"
+    #url = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=midsummer"
     timeout = 5
     page = MainPage(browser, url, timeout)   # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     page.open()                      # открываем страницу
@@ -19,7 +20,6 @@ def test_guest_should_see_login_link(browser, language):
     timeout = 5
     page = MainPage(browser, url, timeout)
     page.open()
-    #page.should_be_login_link()
     page.should_be_login_link()
 
 

@@ -7,7 +7,7 @@ import math
 
 class BasePage():
     # Add constructor method with parameters "browser" and "url"
-    def __init__(self, browser, url, timeout):
+    def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -16,7 +16,8 @@ class BasePage():
     def open(self):
         self.browser.get(self.url)
 
-    # Add CUSTOM method to check if element is present on web page
+    '''Add CUSTOM method to check if element is present on web page. 
+    This method return True or False. You can do it using explicitWait as well'''
     def is_element_present(self, how, what):
         try:
             self.browser.find_element(how, what)
