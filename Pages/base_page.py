@@ -14,7 +14,12 @@ class BasePage():
 
     # Add method "open" which will open web page using get()
     def open(self):
+        self.browser.delete_all_cookies()
+        print("\n BasePage: All cookies deleted")
         self.browser.get(self.url)
+        print("\n BasePage: Browser opened URL")
+        print("\n BasePage:" + self.browser.current_url)
+
 
     '''Add CUSTOM method to check if element is present on web page. 
     This method return True or False. You can do it using explicitWait as well'''

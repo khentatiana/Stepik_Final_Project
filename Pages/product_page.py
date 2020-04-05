@@ -4,26 +4,54 @@ from .locators import ProductPageLocators
 
 
 class ProductPage(BasePage):
-    # def go_to_product_page(self):
-    #     link = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
-    #     link.click()
-
-
     # this methods will be called in test_product_page.py
     def should_be_add_to_cart_button(self):
-        assert self.is_element_present(*ProductPageLocators.ADD_TO_BASKET), "ADD_TO_BASKET button IS NOT PRESENTED"
+        assert self.is_element_present(*ProductPageLocators.ADD_TO_BASKET),\
+            "ADD_TO_BASKET button IS NOT PRESENTED"
+        print("\nProductPage: ADD_TO_BASKET is present on web page ")
 
-
-    def add_product_to_cart(self):
+    def add_product_to_cart(self, promo=False):
         self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET).click()
+        print("\nProductPage: ADD_TO_BASKET button is clicked ")
 
-    def should_be_success_message(self):
-        has_been_added_message = self.browser.find_element(By.XPATH, "//div[@id='messages']//div[1]//div[1]")
-        has_been_added_message.is_displayed()
+        if promo:
+            self.solve_quiz_and_get_code()
+
+    # def should_be_success_message(self):
+    #     has_been_added_message = self.browser.find_element(By.XPATH,
+    #                                                        "//div[@id='messages']//div[1]//div[1]")
+    #     has_been_added_message.is_displayed()
+    #     print("ProductPage:" + has_been_added_message.get_attribute("innerText"))
 
     def should_be_present_in_cart(self):
-        assert self.is_element_present(*ProductPageLocators.PRODUCT_NAME), "PRODUCT_NAME button IS NOT PRESENT"
-        assert self.is_element_present(*ProductPageLocators.ALERT_ADDED_TO_CART), "no ALERT_ADDED_TO_CART"
+        assert self.is_element_present(*ProductPageLocators.PRODUCT_NAME),\
+            "ProductPage: PRODUCT_NAME button IS NOT PRESENT"
+        assert self.is_element_present(*ProductPageLocators.ALERT_ADDED_TO_CART), \
+            "ProductPage: no ALERT_ADDED_TO_CART"
+        alert_text = self.browser.find_element(*ProductPageLocators.ALERT_ADDED_TO_CART)\
+            .get_attribute("innerText") # store text of ALERT_ADDED_TO_CART, better to use .get_attribute("innerText")
+                                        # and not .text
+        print("ProductPage: Product name is " + alert_text)
+        product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).\
+            get_attribute("innerText")  # store text of PRODUCT_NAME, better to use .get_attribute("innerText")
+                                        # and not .text
+        print("ProductPage: Product name is \"" + product_name + " \" ")
+        assert alert_text in product_name, \
+            f"ProductPage: The alert contains WRONG product name: {alert_text} - {product_name}"
+
+    def should_check_total_basket_price(self):
+        assert self.is_element_present(*ProductPageLocators.PRODUCT_PRICE), \
+            "ProductPage: PRODUCT_PRICE is not PRESENT"
+        assert self.is_element_present(*ProductPageLocators.ALERT_CART_STATUS), \
+            "ProductPage: no ALERT_CART_STATUS"
+        alert_text = self.browser.find_element(*ProductPageLocators.ALERT_CART_STATUS).text    # store text of ALERT_CART_STATUS
+        product_total = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text  # store text of PRODUCT_PRICE
+        assert product_total in alert_text, \
+            f"ProductPage: Product cost in basket is not equal to product price.ALERT TEXT: {alert_text} and PRODUCT PRICE: {product_total}"
+
+
+
+
 
 
 
