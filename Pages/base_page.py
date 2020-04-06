@@ -1,21 +1,26 @@
 from selenium import webdriver
 import unittest
 import time
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.common.exceptions import NoAlertPresentException  # в начале файла
+from selenium.webdriver.support import expected_conditions as EC
 import math
+
+from selenium.webdriver.support.wait import WebDriverWait
+
 
 class BasePage():
     # Add constructor method with parameters "browser" and "url"
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
+        # comment out implicit wait when run test_product_page.py
         self.browser.implicitly_wait(timeout)
 
     # Add method "open" which will open web page using get()
     def open(self):
-        self.browser.delete_all_cookies()
-        print("\n BasePage: All cookies deleted")
+        # self.browser.delete_all_cookies()
+        #     print("\n BasePage: All cookies deleted")
         self.browser.get(self.url)
         print("\n BasePage: Browser opened URL")
         print("\n BasePage:" + self.browser.current_url)
@@ -28,6 +33,23 @@ class BasePage():
             self.browser.find_element(how, what)
         except NoSuchElementException:
             return False
+        return True
+
+    def is_not_element_present(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return True
+
+        return False
+
+    def is_disappeared(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+                until_not(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+
         return True
 
     def solve_quiz_and_get_code(self):

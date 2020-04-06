@@ -4,7 +4,7 @@ from .Pages.base_page import BasePage
 from .Pages.login_page import LoginPage
 import time
 
-
+@pytest.mark.skip
 def test_add_to_cart(browser):
     url = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/?promo=newYear2019"
     #url = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear"
@@ -13,15 +13,19 @@ def test_add_to_cart(browser):
     page.open()        # открываем страницу в браузере
     page.should_be_add_to_cart_button()   # проверяем что есть кнопка добавления в корзину
     print ("\n test_product_page.py::test_add_to_cart: BUTTON add_to_cart_button is there")
+    #page.should_not_be_success_message()
     page.add_product_to_cart()            # жмем кнопку добавить в корзину
     print("\ntest_product_page.py::test_add_to_cart: added to cart")
     page.solve_quiz_and_get_code()
     print("\ntest_product_page.py::test_add_to_cart: QUIZ is done")
+    page.should_be_success_message()
+    # Down below method "should_not_be_success_message()" will fail test_add_to_cart if everything is OK.
+    #page.should_not_be_success_message()
     page.should_check_total_basket_price()
     print("\ntest_product_page.py::test_add_to_cart: Basket is checked")
-    time.sleep(5)
+    #time.sleep(5)
 
-    '''In terminal run command:
+'''In terminal run command:
     python3.8 -m pytest -v -s test_product_page.py
     or run command:
     python3.8 -m pytest -v --tb=line test_product_page.py'''
@@ -36,7 +40,7 @@ def test_add_to_cart(browser):
 #                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
 #                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
 #                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"])
-
+@pytest.mark.skip
 @pytest.mark.xfail(promo_offer_num ="7")
 @pytest.mark.parametrize('promo_offer_num', ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
 def test_guest_can_add_product_with_promo_to_basket(browser, promo_offer_num):
@@ -51,12 +55,12 @@ def test_guest_can_add_product_with_promo_to_basket(browser, promo_offer_num):
     page.solve_quiz_and_get_code()
     print("\ntest_product_page.py::test_guest_can_add_product_with_promo_to_basket: QUIZ is done")
     page.should_be_present_in_cart()
-    time.sleep(5)
+   #time.sleep(5)
     page.should_check_total_basket_price()
     print("\ntest_product_page.py::test_guest_can_add_product_with_promo_to_basket: Basket is checked")
-    time.sleep(5)
+    #time.sleep(5)
 
-
+@pytest.mark.skip
 def test_guest_can_add_non_promo_product_to_basket(browser):
     # ваша реализация теста
     #url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
@@ -72,4 +76,42 @@ def test_guest_can_add_non_promo_product_to_basket(browser):
     # print("\ntest_product_page.py::test_guest_can_add_non_promo_product_to_basket: SUCCESS MESSAGE IS DISPLAYED")
     page.should_check_total_basket_price()
     print("\ntest_product_page.py::test_guest_can_add_non_promo_product_to_basket: Basket is checked")
-    time.sleep(5)
+    #time.sleep(5)
+
+
+'''Открываем страницу товара 
+Добавляем товар в корзину 
+Проверяем, что нет сообщения об успехе с помощью is_not_element_present'''
+#@pytest.mark.skip
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, url, timeout=4)
+    page.open()
+    page.add_product_to_cart()
+    page.should_not_be_success_message()
+
+'''Открываем страницу товара 
+Проверяем, что нет сообщения об успехе с помощью is_not_element_present'''
+#@pytest.mark.skip
+def test_guest_cant_see_success_message(browser):
+    url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, url, timeout=4)
+    page.open()
+    page.should_not_be_success_message()
+
+'''Открываем страницу товара
+Добавляем товар в корзину
+Проверяем, что нет сообщения об успехе с помощью is_disappeared'''
+#@pytest.mark.skip
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, url, timeout=4)
+    page.open()
+    page.add_product_to_cart()
+    time.sleep(1)
+    page.should_message_disappeared_after_adding_product_to_basket()
+
+
+
+
+

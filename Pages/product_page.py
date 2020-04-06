@@ -17,11 +17,18 @@ class ProductPage(BasePage):
         if promo:
             self.solve_quiz_and_get_code()
 
-    # def should_be_success_message(self):
-    #     has_been_added_message = self.browser.find_element(By.XPATH,
-    #                                                        "//div[@id='messages']//div[1]//div[1]")
-    #     has_been_added_message.is_displayed()
-    #     print("ProductPage:" + has_been_added_message.get_attribute("innerText"))
+    def should_be_success_message(self):
+        assert self.is_element_present(*ProductPageLocators.SUCCESS_MESSAGE)
+        success_message = self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE).get_attribute("innerText")
+        print("ProductPage: success_message is: " + success_message)
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    def should_message_disappeared_after_adding_product_to_basket(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message NOT is disappeared, but should"
 
     def should_be_present_in_cart(self):
         assert self.is_element_present(*ProductPageLocators.PRODUCT_NAME),\

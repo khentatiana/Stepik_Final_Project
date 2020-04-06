@@ -28,4 +28,8 @@ class ProductPageLocators():
     PRODUCT_NAME = (By.TAG_NAME, "h1")
     # This is tag_name(p).class_attribute(price_color): "p.price_color"
     PRODUCT_PRICE = (By.CSS_SELECTOR, "p.price_color")
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#messages .alert:nth-child(1)")
+    SUCCESS_MESSAGE_PRODUCT_NAME = (By.CSS_SELECTOR, "##messages .alert:nth-child(1) strong")
+    SUCCESS_MESSAGE_PRODUCT_PRICE = (By.CSS_SELECTOR, "#messages .alert:nth-child(3) strong")
+
 
